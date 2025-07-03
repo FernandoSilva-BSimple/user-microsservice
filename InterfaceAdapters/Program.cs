@@ -46,6 +46,7 @@ builder.Services.AddAutoMapper(cfg =>
 builder.Services.AddMassTransit(x =>
 {
     x.AddConsumer<UserCreatedConsumer>();
+    x.AddConsumer<CollaboratorWithoutUserCreatedConsumer>();
 
     x.UsingRabbitMq((context, cfg) =>
     {
@@ -55,10 +56,11 @@ builder.Services.AddMassTransit(x =>
             h.Password("guest");
         });
 
-        cfg.ReceiveEndpoint("userCreatedCmd", conf =>
-        {
-            conf.ConfigureConsumer<UserCreatedConsumer>(context);
-        });
+        cfg.ReceiveEndpoint("users-cmd", e =>
+{
+    e.ConfigureConsumer<UserCreatedConsumer>(context);
+    e.ConfigureConsumer<CollaboratorWithoutUserCreatedConsumer>(context);
+});
     });
 });
 
