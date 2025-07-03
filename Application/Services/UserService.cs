@@ -83,4 +83,15 @@ public class UserService : IUserService
         await _userRepository.AddAsync(user);
         await _userRepository.SaveChangesAsync();
     }
+
+    public async Task<IUser> AddUserFromSagaAsync(string name, string surname, string email, DateTime finalDate)
+    {
+        var user = await _userFactory.Create(name, surname, email, finalDate);
+        await _userRepository.AddAsync(user);
+        await _userRepository.SaveChangesAsync();
+
+        await _publisher.PublishCreatedUserMessageAsync(user.Id, user.Names, user.Surnames, user.Email, user.PeriodDateTime);
+
+        return user;
+    }
 }

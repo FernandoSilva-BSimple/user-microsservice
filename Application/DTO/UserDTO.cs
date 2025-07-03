@@ -1,17 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Domain.Models;
 
 namespace Application.DTO;
 
-public record UserDTO
+public class UserDTO
 {
-    public string Names { get; set; }
-    public string Surnames { get; set; }
-    public string Email { get; set; }
+    public Guid Id { get; set; }
+    public string Names { get; set; } = string.Empty;
+    public string Surnames { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
     public DateTime FinalDate { get; set; }
-    public UserDTO()
-    {
-    }
+    public PeriodDateTime PeriodDateTime { get; set; } = default!;
 }
+
