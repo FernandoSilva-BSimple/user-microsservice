@@ -28,8 +28,6 @@ public class CollaboratorWithoutUserCreatedConsumer : IConsumer<CollaboratorWith
             FinalDate = msg.FinalDate
         };
 
-        var createdUser = await _userService.Add(userDTO);
-
-        await _publisher.PublishCreatedUserMessageAsync(createdUser.Id, msg.Names, msg.Surnames, msg.Email, createdUser.PeriodDateTime);
+        await _userService.Add(userDTO);
     }
 }
