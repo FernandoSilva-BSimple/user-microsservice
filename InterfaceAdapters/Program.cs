@@ -43,6 +43,8 @@ builder.Services.AddAutoMapper(cfg =>
 });
 
 // MassTransit
+var instanceId = InstanceInfo.InstanceId;
+
 builder.Services.AddMassTransit(x =>
 {
     x.AddConsumer<UserCreatedConsumer>();
@@ -56,7 +58,7 @@ builder.Services.AddMassTransit(x =>
             h.Password("guest");
         });
 
-        cfg.ReceiveEndpoint("users-cmd", e =>
+        cfg.ReceiveEndpoint($"users-cmd-{instanceId}", e =>
 {
     e.ConfigureConsumer<UserCreatedConsumer>(context);
 });
