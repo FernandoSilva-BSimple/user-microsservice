@@ -84,14 +84,15 @@ public class UserService : IUserService
         await _userRepository.SaveChangesAsync();
     }
 
-    public async Task<IUser> AddUserFromSagaAsync(string name, string surname, string email, DateTime finalDate)
+    public async Task<UserDTO> AddUserFromSagaAsync(UserDTO userDTO, string instanceId)
     {
-        var user = await _userFactory.Create(name, surname, email, finalDate);
+        var user = await _userFactory.Create(userDTO.Names, userDTO.Surnames, userDTO.Email, userDTO.FinalDate);
         await _userRepository.AddAsync(user);
         await _userRepository.SaveChangesAsync();
 
         await _publisher.PublishCreatedUserMessageAsync(user.Id, user.Names, user.Surnames, user.Email, user.PeriodDateTime);
+        await _publisher.SendCreatedUserFromCollabMessageAsync(instanceId, user.Id, user.Names, user.Surnames, user.Email, user.PeriodDateTime);
 
-        return user;
+        return _mapper.Map<User, UserDTO>(user);
     }
 }

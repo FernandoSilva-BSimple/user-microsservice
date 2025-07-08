@@ -59,8 +59,12 @@ builder.Services.AddMassTransit(x =>
         cfg.ReceiveEndpoint("users-cmd", e =>
 {
     e.ConfigureConsumer<UserCreatedConsumer>(context);
-    e.ConfigureConsumer<CollaboratorWithoutUserCreatedConsumer>(context);
 });
+
+        cfg.ReceiveEndpoint("users-cmd-saga", e =>
+                {
+                    e.ConfigureConsumer<CollaboratorWithoutUserCreatedConsumer>(context);
+                });
     });
 });
 

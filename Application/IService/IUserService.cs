@@ -10,6 +10,6 @@ public interface IUserService
     Task<IEnumerable<IUser>> GetAll();
     Task<IUser?> GetById(Guid Id);
     Task<UserDTO?> UpdateActivation(Guid Id, ActivationDTO activationDTO);
-    Task<IUser> AddUserFromSagaAsync(string name, string surname, string email, DateTime finalDate);
+    Task<UserDTO> AddUserFromSagaAsync(UserDTO userDTO, string instanceId);
 
 }

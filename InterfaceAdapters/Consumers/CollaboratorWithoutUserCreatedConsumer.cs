@@ -1,11 +1,12 @@
 using Application.DTO;
 using Application.IPublishers;
+using Domain.Commands;
 using Domain.Interfaces;
 using Domain.Messages;
 using Domain.Models;
 using MassTransit;
 
-public class CollaboratorWithoutUserCreatedConsumer : IConsumer<CollaboratorWithoutUserCreatedMessage>
+public class CollaboratorWithoutUserCreatedConsumer : IConsumer<CreateUserFromCollaboratorCommand>
 {
     private readonly IUserService _userService;
     private readonly IMessagePublisher _publisher;
@@ -16,7 +17,7 @@ public class CollaboratorWithoutUserCreatedConsumer : IConsumer<CollaboratorWith
         _publisher = publisher;
     }
 
-    public async Task Consume(ConsumeContext<CollaboratorWithoutUserCreatedMessage> context)
+    public async Task Consume(ConsumeContext<CreateUserFromCollaboratorCommand> context)
     {
         var msg = context.Message;
 
@@ -25,9 +26,9 @@ public class CollaboratorWithoutUserCreatedConsumer : IConsumer<CollaboratorWith
             Names = msg.Names,
             Surnames = msg.Surnames,
             Email = msg.Email,
-            FinalDate = msg.FinalDate
+            FinalDate = msg.DeactivationDate
         };
 
-        await _userService.Add(userDTO);
+        await _userService.AddUserFromSagaAsync(userDTO, msg.InstanceId);
     }
 }
