@@ -91,7 +91,6 @@ public class UserService : IUserService
         await _userRepository.SaveChangesAsync();
 
         await _publisher.PublishCreatedUserMessageAsync(user.Id, user.Names, user.Surnames, user.Email, user.PeriodDateTime);
-        await _publisher.SendCreatedUserFromCollabMessageAsync(instanceId, user.Id, user.Names, user.Surnames, user.Email, user.PeriodDateTime);
 
         return _mapper.Map<User, UserDTO>(user);
     }
