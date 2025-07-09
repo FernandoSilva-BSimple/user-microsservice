@@ -8,12 +8,10 @@ namespace InterfaceAdapters.Publishers;
 public class MassTransitPublisher : IMessagePublisher
 {
     private readonly IPublishEndpoint _publishEndpoint;
-    private readonly ISendEndpointProvider _sendEndpoint;
 
     public MassTransitPublisher(IPublishEndpoint publishEndpoint, ISendEndpointProvider sendEndpoint)
     {
         _publishEndpoint = publishEndpoint;
-        _sendEndpoint = sendEndpoint;
 
     }
 
