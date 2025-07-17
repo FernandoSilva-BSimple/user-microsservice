@@ -52,7 +52,7 @@ builder.Services.AddMassTransit(x =>
 
     x.UsingRabbitMq((context, cfg) =>
     {
-        cfg.Host("localhost", "/", h =>
+        cfg.Host("localhost", 5674, "/", h =>
         {
             h.Username("guest");
             h.Password("guest");
@@ -81,12 +81,11 @@ builder.Configuration.AddEnvironmentVariables();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+
+app.MapOpenApi();
+app.UseSwagger();
+app.UseSwaggerUI();
+
 
 
 app.UseCors(builder => builder

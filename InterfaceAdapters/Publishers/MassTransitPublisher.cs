@@ -17,6 +17,7 @@ public class MassTransitPublisher : IMessagePublisher
 
     public async Task PublishCreatedUserMessageAsync(Guid id, string names, string surnames, string email, PeriodDateTime period)
     {
+        Console.WriteLine("Mensagem foi publicada!!!");
         await _publishEndpoint.Publish(new UserCreatedMessage(id, names, surnames, email, period));
     }
 
